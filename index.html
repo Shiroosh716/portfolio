@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+
+    <!-- load in the p5 sound library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.js"></script>
+    <!--<script src="sketch.js"></script>-->
+
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyA6s7S3JI2ghNLM5f-9MZe1PPwctbpguq4",
+          authDomain: "portfolio-shira.firebaseapp.com",
+          projectId: "portfolio-shira",
+          storageBucket: "portfolio-shira.appspot.com",
+          messagingSenderId: "618469162270",
+          appId: "1:618469162270:web:825960cc77883ae7ad1d0f",
+          measurementId: "G-FHNBFDHG9G"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+
+    <div id="container">
+        <nav>
+            <ul class="anek-latin-font800">
+                <li><a href="works.html"><span class="thick">WORKS</span></a></li>
+                <li><a href="about.html"><span class="thick">ABOUT</span></a></li>
+            </ul>
+        </nav>
+        <div id="textContent" class="textContent">
+            <p>Hi! I’m <i>Shira</i> Zeev, welcome to my interactive portfolio</p>
+            <p class="annie-use-your-telescope-regular clickTP">(click <a href="#" id="clickToPlay"><span>here</span></a> to play)</p>
+        </div>
+        <div id="gameInstructions" class="anek-latin-font400 hiddenFull">
+            <h4>Click the game to start!</h4>
+            <p>Use keys 'A' and 'D' to move the paddle left and right. Don't let the ball fall</p>
+            <p>Try to collect as many treasures as possible </p>
+        </div>
+        <footer>
+            <hr class="mainhr">
+            <a href="#"><span>Linkdin</span></a>
+            <a href="#"><span>shirazeev716@gmail.com</span></a>
+        </footer>
+    </div>
+    <div id="circularcursor"></div>
+    <script>
+        $(document).ready(function() {
+            $(document).on('mousemove', function(e) {
+            $('#circularcursor').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+            })
+        });
+    </script>
+    <script>
+        clickToPlay = document.getElementById('clickToPlay');
+        clickToPlay.addEventListener("click",function(){
+            document.getElementById('textContent').classList.add('hidden');
+            setTimeout(function(){
+                gameInstructions.classList.remove('hiddenFull');
+                gameInstructions.classList.add('visible');
+                document.getElementById("container").addEventListener("click",function(){
+                    gameInstructions.classList.add('hiddenFull');
+                    let sketch = function(p) {
+                    let xpad = 250;
+                    p.setup = function(){
+                        p.createCanvas(window.innerWidth,window.innerHeight);
+                        //p.background(0);
+                        p.canvas.id='canvas';
+                        //p.canvas.class('hiddenFull');
+                        p.angleMode(p.DEGREES);
+                    }
+                    p.draw = function(){
+                        p.background('#E2A8BE');
+                        //paddle
+                        p.fill(0);
+                        p.noStroke();
+                        p.rect(xpad,590,100,10);
+                        if(p.keyIsDown(65) && xpad >= 5){
+                            xpad -= 3;
+                        }
+                        if(p.keyIsDown(68) && xpad <= p.width-5){
+                            xpad += 3;
+                        }
+
+                        
+                        //ball
+                        let xball = p.width / 2;
+                        let yball = p.height / 2;
+                        let xspeed = 1;
+                        let yspeed = 1;
+                        let diameter = 20;
+                        p.fill(0);
+                        p.ellipse(xball, yball, diameter);
+
+                        xball += xspeed;
+                        yball += yspeed;
+
+                        if (xball + diameter / 2 >= p.width || xball - diameter / 2 <= 0) {
+                            xspeed *= -1;
+                        }
+                        if (yball - diameter / 2 <= 0) {
+                            yspeed *= -1;
+                        }
+                        if (yball + diameter / 2 >= p.height) {
+                            // Game over or reset
+                        }
+
+                        //color
+                        //let r = map(xball, 0, 500, 0, 255);
+                        //let g = map(yball, 0, 600, 0, 255);
+                        //let b = map(xspeed, 0, 4, 0, 255);
+                        //fill(r,g,b);
+
+
+                        //borders
+                        //p.stroke(180);
+                        //p.strokeWeight(10);
+                        //p.line(0,0,0,600);
+                        //p.line(0,0,510,0);
+                        //p.line(510,0,510,600);
+                    }
+                };
+
+                let node = document.createElement('div');
+                new p5(sketch, node);
+                document.getElementsByTagName('body')[0].appendChild(node);
+
+                })
+
+                
+
+
+                //document.getElementById('canvas').classList.remove('hiddenFull');
+                //document.getElementById('canvas').classList.add('visible');
+
+                
+                //fade out and start game
+            }, 1000); //set timeout for ball to drop
+
+        })
+    </script>
+    <script>
+    /* let sketch = function(p) {
+        let xpad = 250;
+        p.setup = function(){
+            p.createCanvas(window.innerWidth,window.innerHeight);
+            //p.background(0);
+            p.canvas.id('canvas');
+            //p.canvas.class('hiddenFull');
+            p.angleMode(p.DEGREES);
+        }
+        p.draw = function(){
+            //paddle
+            p.fill(180);
+            p.noStroke();
+            p.rect(xpad,590,100,10);
+            if(p.keyIsDown(65) && xpad >= 5){
+                xpad -= 3;
+            }
+            if(p.keyIsDown(68) && xpad <= 405){
+                xpad += 3;
+            }
+
+            //ball
+            let xball = p.width / 2;
+            let yball = p.height / 2;
+            let xspeed = 1;
+            let yspeed = 1;
+            let diameter = 20;
+            p.fill(255);
+            p.ellipse(xball, yball, diameter);
+
+            xball += xspeed;
+            yball += yspeed;
+
+            if (xball + diameter / 2 >= p.width || xball - diameter / 2 <= 0) {
+                xspeed *= -1;
+            }
+            if (yball - diameter / 2 <= 0) {
+                yspeed *= -1;
+            }
+            if (yball + diameter / 2 >= p.height) {
+                // Game over or reset
+            }
+            //color
+            let r = map(xball, 0, 500, 0, 255);
+            let g = map(yball, 0, 600, 0, 255);
+            let b = map(xspeed, 0, 4, 0, 255);
+            fill(r,g,b);
+
+
+            //borders
+            p.stroke(180);
+            p.strokeWeight(10);
+            p.line(0,0,0,600);
+            p.line(0,0,510,0);
+            p.line(510,0,510,600);
+        }
+    }; */
+    //let node = document.createElement('div');
+    //new p5(sketch, node);
+    //window.document.getElementsByTagName('body')[0].appendChild(node);
+    </script>
+  </body>
+</html>
