@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cat - Walking
+* source:	https://sketchfab.com/3d-models/cat-walking-827aa2c7951747599629700703050673
+* author:	pamoan10 (https://sketchfab.com/pamoan10)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cat - Walking" (https://sketchfab.com/3d-models/cat-walking-827aa2c7951747599629700703050673) by pamoan10 (https://sketchfab.com/pamoan10) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
