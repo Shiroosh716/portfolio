@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_package/favicon.ico">
+    
+    <!-- load in the p5 core library -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+
+    <!-- load in the p5 sound library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.js"></script>
+
+    <!-- your custom sketch code -->
+    <script src="sketch.js"></script>
+
+    <link href="https://www.dafontfree.net/embed/YmxhemUtaXRjLXR0LXJlZ3VsYXImZGF0YS8yMy9iLzExNTQ1NC9CTEFaSS50dGY" rel="stylesheet" type="text/css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Catamaran:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Catamaran:wght@400;600;700;800;900&display=swap');
+
+        body{
+            background-color: orange;
+            background-image: url('images/cheetoBackground.png');
+        }
+        h1{
+            /*font-family: 'blaze-itc-tt-regular', sans-serif;*/
+            font-family: 'Bangers', 'Catamaran';
+            font-weight: 400;
+            font-size: 60px;
+            text-align: center;
+        }
+        .hidden{
+            display: none;
+        }
+        #tryAgain{
+            position:absolute;
+            top: 75%;
+            left: 48%;
+            background-color: orange;
+            padding:5px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+        #tryAgain:hover{
+            background-color: yellow;
+            outline: 2px;
+            outline-color: yellow;
+            outline-offset: 10;
+        }
+        #canvas{
+            display: block;
+            margin: auto;
+        }
+        #level{
+            position: absolute;
+            top:85%;
+            left: 48%;
+            z-index: 1;
+            padding:2px;
+            background-color:rgb(255, 235, 108);
+            border: 3px solid red;
+            border-radius: 5px;
+        }
+        #instruct1,#instruct2{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            position: absolute;
+            background-color: rgba(255, 250, 205, 0.612);
+            padding: 3px;
+            border-radius: 10px;
+            width: 25%;
+            text-align: center;
+            border:5px solid rgb(99, 26, 26);
+        }
+        #instruct2{
+            bottom: 60px;
+            right: 20px;
+
+
+        }
+
+    </style>
+    </head>
+
+    <body>
+        <h1>Cheetos Game</h1>
+        <select id="level" class="">
+            <option class='orange' default value="e">Easy</option>
+            <option class='orange' value="m">Medium</option>
+            <option class='orange' value="h">Hard</option>
+        </select>
+        <div id="instruct1">
+            <p>In this game you are the cheetah trying to collect as 
+                many cheeto bags as you can, beware of the fires!</p>
+        </div>
+        <div id="instruct2">
+            <p> To start select a level and then pick out and click 
+                on your favorite snack from the pantry</p>
+        </div>
+
+        <button id="tryAgain">Try Again</button>
+
+
+    </body>
+
+
+    </html>

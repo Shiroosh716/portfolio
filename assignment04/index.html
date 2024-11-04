@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <!--Favicon-->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_package/favicon.ico">
+
+    <!-- load in the p5 core library -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+
+    <!-- your custom sketch code -->
+    <script src="sketch.js"></script>
+
+    <!-- custom CSS styles for this page -->
+    <style>
+      body{
+        background-color: black;
+      }
+      h1,p{
+        text-align: center;
+        color:white;
+      }
+      #canvas_container{
+        display: flex;
+        justify-content: center;
+
+      }
+    </style>
+
+  </head>
+  <body>
+    <h1>Robot Maze</h1>
+    <p>Welcome to the robot maze! click on the arrows to control the direction of the robots, try to get them to reach the other side</p>
+    <div id = 'canvas_container'></div>
+  </body>
+</html>

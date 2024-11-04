@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon.ico">
+
+
+        <title>Seasonal To-Do List</title>
+        <style>
+            body {
+                background-image: url('A05_images/corkboard.jpg');
+            }
+            #add_item {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+            #season_filter {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            #panel_add_new_item {
+                width: 300px;
+                height: 250px;
+                background-color: white;
+                position: absolute;
+                padding: 30px;
+                top: 50%;
+                left: 50%;
+                margin-left: -150px;
+                margin-top: -125px;
+                border-radius: 25px;
+                z-index: 5;
+            }
+            .item_pop{
+                width: 300px;
+                height: 250px;
+                background-color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                padding: 30px;
+                margin-left: -150px;
+                margin-top: -125px;
+                border-radius: 25px;
+            }
+
+            .hidden {
+                display: none;
+            }
+            .error {
+                background-color: red;
+                color: white;
+            }
+            .item {
+                width: 150px;
+                height: 150px;
+                float: left;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                padding:10px;
+
+            }
+            .item:hover{
+
+            }
+            .delete1{
+                
+                position: absolute;
+                width:25px;
+                height: 25px;
+                border-radius: 50%;
+                margin-left: 145px;
+                margin-top: -180px;
+                z-index: 1;
+
+            }
+            .winter {
+                background-color: lightblue;                
+            }
+            .spring {
+                background-color: lightgreen;
+            }
+            .summer {
+                background-color: yellow;
+            }
+            .fall {
+                background-color: burlywood;
+            }
+            .complete{
+                background-color: white;
+                
+            }
+            .uncompleted{
+                background-color: white;
+            }
+            .h1{
+                font-size: 15px;
+                font-weight: bold;
+            }
+            .close_b{
+                margin-top: 20px;
+                margin-left: 42%;
+            }
+            .check{
+                width: 30px;
+                height: 30px;
+                border: 1px solid grey;
+                background-color: none;
+                position: relative;
+                margin-left:120px;
+                margin-top: 100px;
+            }
+            p{
+                margin-top:-15px;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <h1>Seasonal To-Do List</h1>
+
+        <select id="season_filter">
+            <option value="all">Show all seasons</option>
+            <option value="winter">Winter</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer</option>
+            <option value="fall">Fall</option>
+            <option value="complete">Completed</option>
+            <option value="uncompleted">Incompleted</option>
+        </select>
+
+        <img id="add_item" src="A05_images/add_button.png">
+
+        <div id="panel_add_new_item" class="hidden">
+            <h2>Add new Item</h2>
+
+            <div class="error hidden" id="add_error">Please fill out all of the form fields!</div>
+
+            <form>
+                <label for="title">Title</label><br>
+                <input type="text" id="title"><br>
+
+                <label for="category">Category</label><br>
+                <select id="category">
+                    <option value="winter">Winter</option>
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                    <option value="fall">Fall</option>
+                </select><br>
+        
+                <label for="description">Description</label><br>
+                <textarea id="description"></textarea><br>
+
+                <button id="add_save">Save</button>
+                <button id="add_cancel">Cancel</button>
+            </form>
+        </div>
+
+        <div id="item_container"></div>
+
+
+
+        <script>
+            // dom queries
+            const panel_add_new_item = document.querySelector("#panel_add_new_item");
+            const add_item = document.querySelector("#add_item");
+            const add_cancel = document.getElementById('add_cancel');
+            const add_save = document.getElementById('add_save');
+            const add_error = document.getElementById('add_error');
+            const item_container = document.getElementById('item_container');
+            const body = document.querySelector('body');
+            let season = document.getElementById('season_filter').value;
+
+            document.getElementById('season_filter').onchange = function() {seasonChange()}
+
+
+            //changing season filter
+           function seasonChange(){
+                season = document.getElementById('season_filter').value;
+                console.log(season);
+
+                localStorage.setItem('season', season);
+
+                let allitem = document.querySelectorAll('.item');
+                for(i=0; i<allitem.length; i++){
+                    if(season == 'all'){
+                        allitem[i].classList.remove('hidden');
+                    }
+                    else if(allitem[i].dataset.category != season && allitem[i].dataset.complete != season){
+                        allitem[i].classList.add('hidden');
+                    }
+                    else{
+                        allitem[i].classList.remove('hidden');
+                    }
+                    //console.log(allitem[i].dataset.complete);  
+                }
+            }
+
+
+
+            // when the user clicks on the + button trigger the panel to appear
+            add_item.onclick = function(e) {
+                document.getElementById('season_filter').value = 'all';
+                seasonChange()
+                panel_add_new_item.classList.remove('hidden');
+
+                // erase the form
+                document.querySelector('#title').value = '';
+                document.querySelector('#description').value = '';
+                document.querySelector('#category').value = 'winter';
+            }
+
+            add_cancel.onclick = function(e) {
+                e.preventDefault();
+                panel_add_new_item.classList.add('hidden');
+            }
+
+            add_save.onclick = function(e) {
+                e.preventDefault();
+
+                // grab the value from the title, category and description fields
+                let t = document.querySelector('#title').value;
+                let d = document.querySelector('#description').value;
+                let c = document.querySelector('#category').value;
+
+                // if we do have all 3, create the to-do item
+                if (t && d && c) {
+                    add_error.classList.add('hidden');
+
+                    // create our new to-do item
+                    let item = document.createElement('div');
+                    item.classList.add('item');
+                    item.classList.add(c);
+                    item.innerHTML = t;
+
+                    let complete = document.createElement('img');
+                    complete.classList.add('check');
+                    complete.classList.add('uncompleted');
+                    item.dataset.complete = 'uncompleted';
+                    item.appendChild(complete);
+
+                    let delete1 = document.createElement('img');
+                    delete1.classList.add('delete1');
+                    delete1.classList.add('hidden');
+                    delete1.src = 'A05_images/delete_button.png';
+                    item.appendChild(delete1)
+
+                    //item.innerText = t;
+                    item_container.appendChild(item);
+                    //item_container.appendChild(delete1)
+
+                    delete1.onclick = function(e){
+                        e.currentTarget.parentElement.remove();
+                        e.stopPropagation();
+
+                    }
+                    item.onmouseover = function(){
+                        delete1.classList.remove('hidden')
+                    }
+                    item.onmouseout = function(){
+                        delete1.classList.add('hidden');
+                    }
+
+                    complete.onclick = function(e){
+                        if(complete.classList.contains('complete')){
+                            complete.classList.remove('complete');
+                            complete.src = 'A05_images/transparent.png';
+                            complete.classList.add('uncompleted');
+                            item.dataset.complete = 'uncompleted';
+                            e.stopPropagation();
+                        }else{
+                            complete.classList.remove('uncompleted');
+                            complete.classList.add('complete');
+                            complete.src = 'A05_images/checkmark.png';
+                            item.dataset.complete = 'complete';
+                            e.stopPropagation();
+                        }
+                    }
+
+                    // have the item rememeber all the data it knows about itself
+                    item.dataset.title = t;
+                    item.dataset.description = d;
+                    item.dataset.category = c;
+
+                    let rightNow = new Date();
+                    let hours = rightNow.getHours();
+                    if(hours > 12){
+                        hours = hours - 12;
+                    }
+                    if(hours ==0){
+                        hours = 12; 
+                    }
+                    let minutes = rightNow.getMinutes();
+                    if(minutes<10){
+                        minutes = '0'+ minutes;
+                    }
+                    let day = rightNow.getDate();
+                    let month = rightNow.getMonth() + 1;
+                    let year = rightNow.getFullYear();
+                    item.dataset.date = month+'/'+day+'/'+year+' '+hours+':'+minutes;
+
+                    // set the item up so you can click on it
+                    item.onclick = function(event) {
+                        console.log(event.currentTarget.dataset.title);
+                        console.log(event.currentTarget.dataset.description);
+                        console.log(event.currentTarget.dataset.category);
+
+                        let popout = document.createElement('div');
+                        let h1 = document.createElement('h1');
+                        //h1.classList.add('h1')
+                        let p1 = document.createElement('p');
+                        let p2 = document.createElement('p');
+                        let hr = document.createElement('hr');
+                        let close_b = document.createElement('button');
+                        let br = document.createElement('br');
+
+                        popout.classList.add('item_pop');
+                        close_b.innerText = 'Close';
+                        close_b.classList.add('close_b');
+                        h1.innerText = event.currentTarget.dataset.title +" ";
+                        popout.appendChild(h1);
+                        p1.innerText = "Season: " + event.currentTarget.dataset.category+ '\n' +event.currentTarget.dataset.description;
+                        popout.appendChild(p1);
+                        popout.appendChild(hr);
+                        //created & accessed
+                        let rightNow = new Date();
+                        let hours = rightNow.getHours();
+                        if(hours > 12){
+                            hours = hours - 12;
+                        }
+                        if(hours ==0){
+                            hours = 12; 
+                        }
+                        let minutes = rightNow.getMinutes();
+                        if(minutes<10){
+                            minutes = '0'+ minutes;
+                        }
+                        let day = rightNow.getDate();
+                        let month = rightNow.getMonth() + 1;
+                        let year = rightNow.getFullYear();
+                        p2.innerText = "\n Date Created: "+item.dataset.date+"\n Last Accessed: "+month+'/'+day+'/'+year+' '+hours+':'+minutes;
+                        popout.appendChild(p2)
+
+
+                        close_b.onclick = function(e){
+                            e.preventDefault();
+                            popout.classList.add('hidden')
+                        }
+                        popout.appendChild(close_b);
+
+                        body.appendChild(popout);
+
+                    }
+
+                    // close the add panel
+                    panel_add_new_item.classList.add('hidden');
+
+                    }
+
+                
+
+                // make sure we have all 3 -- if not, trigger the error message
+                else {
+                    add_error.classList.remove('hidden');
+                }
+            }
+
+
+            
+
+
+
+        </script>
+    </body>
+</html>
