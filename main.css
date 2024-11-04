@@ -1,0 +1,181 @@
+stylesheet.css
+
+body{
+	background-color: rgb(177, 177, 177);
+	padding-top: -200px;
+}
+header{
+	width:100%;
+	padding:100px;
+	background-color: black;
+	z-index: 5;
+}
+.header{
+	position: fixed;
+	width:100%;
+	padding:20px;
+	top:0;
+	left:0;
+	background-color: black;
+}
+.about{
+	position: absolute;
+	text-decoration: none;
+	color: white;
+	margin-left: 85%;
+}
+.aboutcontainer{
+	margin-top: 200px;
+	display: inline-block;
+}
+.aboutimg{
+	display: inline-block;
+	width: 400px;
+	margin-right: 10%;
+}
+
+.info{
+	display: inline-block;
+	width: 40%;
+}
+
+h1{
+	display:block;
+	color: white;
+	text-align: center;
+	font-size: 50px;
+}
+footer{
+	background-color: black;
+	z-index: 5;
+}
+.footer{
+	position: fixed;
+	left:0;
+	bottom: 0;
+	width:100%;
+	background-color:black;
+	color: white;
+	text-align: center;
+	padding-top:15px;
+}
+footer p{
+	color: white;
+	justify-content: center;
+}
+/*
+.multi-grid>div{
+	margin-top: 200px;
+	margin: 20px;
+	background-color: white;
+	padding: 5px;
+	border-radius: 5px;
+	width:140px;
+	height:180px;
+	z-index: 1;
+	filter: drop-shadow(rgba(158, 158, 158, 0.564) 0.1rem 0.1rem 5px);
+}
+	*/
+
+.multi-grid>div:hover{
+	background-color: rgba(252, 194, 203, 0.761);
+	border-radius: 5px;
+}
+/* this is not working perfectly*/
+
+@media only screen and (min-width:1060px){
+	.multi-grid{
+		display: grid;
+		margin: 7%;
+		justify-content: space-evenly;
+		grid-template-columns: auto auto auto auto auto;
+		margin-top: 200px;
+	}
+	.multi-grid>div{
+		margin-top: 200px;
+		margin: 20px;
+		background-color: white;
+		padding: 5px;
+		border-radius: 5px;
+		width:140px;
+		height:180px;
+		z-index: 1;
+		filter: drop-shadow(rgba(158, 158, 158, 0.354) 0.1rem 0.1rem 5px);
+	}
+	.icon{
+		margin-left: 7%;
+	}
+	.aboutcontainer{
+		margin-left: 16%;
+		margin-right: 16%;
+	}
+
+}
+@media only screen and (max-width:1125px){
+	.multi-grid{
+		display: grid;
+		margin: 10%;
+		justify-content: space-evenly;
+		grid-template-columns: auto auto;
+		margin-top: 200px;
+	}
+	.multi-grid>div{
+		margin-top: 200px;
+		margin: 20px;
+		background-color: white;
+		padding: 5px;
+		border-radius: 5px;
+		width:140px;
+		height:180px;
+		z-index: 1;
+		filter: drop-shadow(rgba(158, 158, 158, 0.354) 0.1rem 0.1rem 5px);
+	}
+	.about{
+		margin-left: 75%;
+	}
+	.aboutcontainer{
+		margin-left: 8%;
+		margin-right: 8%;
+	}
+	.info{
+		width: 30%;
+	}
+}
+@media only screen and (max-width:600px){
+		.multi-grid{
+		display: grid;
+		margin: 2%;
+		justify-content: space-evenly;
+		grid-template-columns: auto;
+		margin-top: 200px;
+	}
+	.multi-grid>div{
+		margin-top: 200px;
+		margin: 20px;
+		background-color: white;
+		padding: 20px;
+		border-radius: 5px;
+		width: 300px;
+		height: 310px;
+		z-index: 1;
+		filter: drop-shadow(rgba(158, 158, 158, 0.564) 0.1rem 0.1rem 5px);
+	}
+	.icon{
+		width:150px;
+		height:150px;
+		margin-top: 15%;
+		margin-left: 25%;
+		margin-bottom: 25%;
+	}
+	.about{
+		margin-left: 70%;
+	}
+	h1{
+		font-size: 35px;
+		margin-top: 70px;
+	}
+	.info{
+		margin-top: 20px;
+		width: 100%;
+	}
+}

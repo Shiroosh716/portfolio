@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- load in the p5 core library -->
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.js"></script>
+
+        <!-- your custom sketch code -->
+        <script src="sketch.js"></script>
+        <style>
+            body{
+                background-image: url('images/aplBg1.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;  
+            }
+            h1{
+                text-align: center;
+            }
+            #instructions{
+                background-color: rgb(252, 251, 251);
+                margin-left:30px;
+                margin-right:30px;
+                padding:20px;
+                border-radius: 20px;
+            }
+            #canvasContainer{
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+  </head>
+  <body>
+    <h1>Go Apple picking to have enough apple pies for thanksgiving</h1>
+    <div id="canvasContainer"></div>
+    <p id="instructions">Do you want to go apple picking to have fresh ingredients 
+        for your pies? Click on two colors that are bright and clearly identifiable 
+        from anything else in the camera's frame. Once you see the basket and apple 
+        picker over your selected colors, bring the apple picker near the top of the 
+        screen as if shaking an apple tree. as the apple's decend, try to collect them 
+        with the basket. You need to collect 22 apples to make 4 apple pies, if you 
+        have collected apples before, try to beat your time.</p>
+  </body>
+</html>

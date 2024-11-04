@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Favicon-->
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon.ico">
+
+        <title>Memory Matching Madness</title>
+        <style>
+            body {
+                background-color: black;
+                color: white;
+                text-align: center;
+            }
+            button{
+                margin-top: 10px;
+                width:103px;
+                height: 23px;
+            }
+            button:hover{
+                outline:1px solid red;
+                outline-offset: 2px;
+            }
+            button:active{
+                background-color: red;
+            }
+            select{
+                margin-top: 5px;
+                padding:2px;
+            }
+            #divlevel{
+                margin-top: 10px;
+            }
+            .hidden {
+                display: none;
+            }
+            /*#tile_container {
+                width: 400px;
+                margin: auto;
+            }*/
+            #tile_container img {
+                width: 100px;
+            }
+            .easy{
+                width: 400px;
+                margin: auto;
+            }
+            .medium{
+                width: 500px;
+                margin: auto;
+            }
+            .hard{
+                width: 600px;
+                margin: auto;
+            }
+            /*#plevel{
+                position: absolute;
+                margin-top: 25%;
+                margin-left: 38%;
+                justify-self: center;
+                justify-content: left;
+                width:165px;
+            }*/
+            #user{
+                margin-top: 30px;
+                margin-bottom: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Memory Matching Madness</h1>
+
+        <div id="panel_gamestart">
+            <p>Let's play! click to begin!</p>
+            <form>
+                <label for="title">User Name: </label>
+                <input type="text" id="user">
+            </form>
+            <button id="button_playgame">Start</button>
+        </div>
+        <div id="panel_gameplaying" class="hidden">
+            <div id="timer_container">0 seconds elapsed</div>
+            <div id="tile_container"></div>
+        </div>
+        <div id="panel_gameover" class="hidden">
+            <p>Game over!</p>
+            <p id="ptime">Your time: 0 sec</p>
+            <p id="pbest">Best time: 0 sec</p>
+            <p id="plevel"></p>
+        </div>
+        <div id = divlevel>
+            <select id = "level">
+                <option value = 'easy'>Easy: 3x4</option>
+                <option value = 'medium'>Medium: 4x5</option>
+                <option value = 'hard'>Hard: 5x6</option>
+            </select>
+        </div>
+
+        <script>
+            // DOM queries
+            const panel_gamestart = document.querySelector('#panel_gamestart');
+            const button_playgame = document.querySelector('#button_playgame');
+            const panel_gameplaying = document.querySelector('#panel_gameplaying');
+            const timer_container = document.querySelector('#timer_container');
+            const tile_container = document.querySelector('#tile_container');
+            const panel_gameover = document.querySelector('#panel_gameover');
+            const divlevel = document.querySelector('#divlevel')
+            tile_container.classList.add('easy');
+            let level = ('easy')
+            if(window.localStorage.getItem('level')){
+                level = window.localStorage.getItem('level');
+
+            }else{
+                level = document.getElementById('level').value;
+                tile_container.classList.add('easy');
+            }
+
+            const ptime = document.querySelector('#ptime');
+            const pbest = document.querySelector('#pbest');
+
+            // global variables to keep track of our picked tiles
+            let tile1 = false;
+            let tile2 = false;
+            let match = 0;
+            let best = 90000000000000;
+            let tileamount = 12;
+            let bestEasy = 90000000000000;
+            let bestMedium = 90000000000000;
+            let bestHard = 90000000000000;
+            let userbest = 90000000000000;
+
+            document.getElementById('level').addEventListener('change', updateValue);
+            function updateValue(e){
+                level = document.getElementById('level').value;
+                localStorage.setItem('level', level);
+
+                if(level == 'easy'){
+                    tileamount = 12;
+                    tile_container.classList.add('easy');
+                    tile_container.classList.remove('medium');
+                    tile_container.classList.remove('hard');
+                }else if(level == 'medium'){
+                    tileamount = 20;
+                    tile_container.classList.add('medium');
+                    tile_container.classList.remove('easy');
+                    tile_container.classList.remove('hard');
+                }else{
+                    tileamount = 30;
+                    tile_container.classList.add('hard');
+                    tile_container.classList.remove('medium');
+                    tile_container.classList.remove('easy');
+                }
+            }
+
+            //getting from local storage if it exists 
+            if(window.localStorage.getItem('Best')){
+                best = window.localStorage.getItem('Best');
+            }
+            if(window.localStorage.getItem('bestEasy')){
+                bestEasy = window.localStorage.getItem('bestEasy');
+            }
+            if(window.localStorage.getItem('bestMedium')){
+                bestMedium = window.localStorage.getItem('bestMedium');
+            }
+            if(window.localStorage.getItem('bestHard')){
+                bestHard = window.localStorage.getItem('bestHard');
+            }
+
+            //setting up local storage
+            localStorage.setItem('Best', best);
+            localStorage.setItem('bestEasy',bestEasy); 
+            localStorage.setItem('bestMedium',bestMedium); 
+            localStorage.setItem('bestHard',bestHard); 
+
+            button_playgame.addEventListener('click', play, true);
+            function play(e){
+                panel_gamestart.classList.add('hidden');
+                divlevel.classList.add('hidden');
+                panel_gameover.classList.add('hidden');
+                panel_gameplaying.classList.remove('hidden');
+                tile_container.classList.remove('hidden');
+
+                let user = document.querySelector('#user').value;
+                if(window.localStorage.getItem(user)){
+                    userbest = window.localStorage.getItem(user);
+                }else{
+                    userbest = best;
+                }
+                let keyName = window.localStorage.key('6');
+                //console.log('name: '+keyName)
+                localStorage.setItem(user, userbest);
+                //console.log('user:'+ user)
+
+                let assets = ['snorlax.png', 'electrabuzz.png', 'chansey.png', 'oddish.png',
+                            'pikachu.png', 'paras.png', 'arcanine.png', 'ponita.png',
+                            'venonat.png', 'eggsecute.png', 'machop.png', 'pidgey.png',
+                            'psyduck.png', 'tauros.png', 'vulpix.png', 'gloom.png',
+                            'krabby.png', 'butterfree.png', 'bulbasaur.png', 'clefairy.png',
+                            'koffing.png', 'goldeen.png', 'magikarp.png', 'beedrill.png',
+                            'lapras.png', 'meowth.png', 'ekans.png', 'jigglypuff.png',
+                            'horsea.png', 'polywog.png', 'sandshrew.png', 'rattata.png',
+                            'gengar.png', 'eevee.png', 'bellsprout.png', 'squirtle.png',
+                            'seel.png', 'caterpie.png'];
+
+                // pick 6 graphics at random
+                let selectedTiles = [];
+
+                while (selectedTiles.length < tileamount) {
+                    // pick a random one from the assets array
+                    let i = parseInt( Math.random() * assets.length );
+                    selectedTiles.push( assets[i] );
+                    selectedTiles.push( assets[i] );
+                    assets.splice(i, 1);
+                }
+
+                console.log(selectedTiles);
+
+                // you need to randomize these tiles so they are all messed up
+                function shuffle(array) {
+                    let currentIndex = array.length,  randomIndex;
+
+                    // While there remain elements to shuffle.
+                    while (currentIndex != 0) {
+
+                    // Pick a remaining element.
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+
+                    // And swap it with the current element.
+                    [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+                    }
+
+                return array;
+                }
+                
+                let shuffled = shuffle(selectedTiles)
+                console.log(shuffled)
+
+                // create tiles for these graphics
+                for (let i = 0; i < selectedTiles.length; i++) {
+                    // create a tile
+                    let tile = document.createElement('img');
+                    tile.src = 'assignment06_images/pokeball.png';
+                    tile.dataset.secret = 'assignment06_images/' + selectedTiles[i];
+                    tile_container.appendChild(tile);
+                    let correctSound = new Audio('assignment06_images/correct.wav')
+                    let wrongSound = new Audio('assignment06_images/wrong.wav')
+                    //correctSound.play()
+
+                    // set up event listeners on each tile
+                    tile.onclick = function(event) {
+
+                        // have no tiles been clicked?
+                        if (tile1 == false && tile2 == false) {
+                            // reveal tile 1
+
+                            // switch graphics
+                            event.currentTarget.src = event.currentTarget.dataset.secret;
+
+                            // mark this as tile1
+                            tile1 = event.currentTarget;
+                            
+                        }
+                        else if (tile2 == false) {
+                            // reveal this tile
+
+                            // switch graphics
+                            event.currentTarget.src = event.currentTarget.dataset.secret;
+
+                            // mark this as tile1
+                            tile2 = event.currentTarget;
+
+                            // did they get it right?
+                            if (tile1.dataset.secret == tile2.dataset.secret && tile1 != tile2) {
+                                // reset the game back to the original state and allow more clicks
+                                tile1 = false;
+                                tile2 = false;
+                                match += 1;
+                                console.log("MATCH");
+                                correctSound.play();
+
+                            }
+                            else {
+                                // they got it wrong
+                                setTimeout( function() {
+                                    tile1.src = 'assignment06_images/pokeball.png';
+                                    tile2.src = 'assignment06_images/pokeball.png';
+                                    tile1 = false;
+                                    tile2 = false;
+                                    wrongSound.play();
+                                }, 1000);
+                            }
+                        }
+
+
+
+                        //tile.src = tile.dataset.secret;
+                        console.log(selectedTiles.length)
+                        console.log(match)
+
+                    //game over panel and output
+                    if(match*2 == selectedTiles.length){
+                        match = 0;
+                        tile_container.classList.add('hidden');
+                        clearInterval(interval)
+                        //console.log(seconds)
+                        if(seconds<best){
+                            best = seconds;
+                            localStorage.setItem('Best', best);
+                        }
+                        panel_gameover.classList.remove('hidden');
+                        let allbest = window.localStorage.getItem('Best');
+                        console.log('allbest ', allbest)
+                        if(user!=''){
+                            ptime.innerHTML = user+"'s time: "+seconds;
+                        }else{
+                            ptime.innerHTML = "Your time: "+seconds;
+                        }
+                        //ptime.innerHTML = "High score: "+allbest;
+                        //pbest.innerHTML = user+"'s Best: "+window.localStorage.getItem(user);
+                        pbest.innerHTML = "High score: "+allbest;
+
+                        if(seconds<userbest){
+                            userbest = seconds;
+                            localStorage.setItem(user,userbest);
+                        }
+                        
+
+
+                        let plevel = document.querySelector('#plevel');
+
+                        if(level == 'easy'){
+                            let allbestE = window.localStorage.getItem('bestEasy');
+                            if(bestEasy>seconds){
+                               bestEasy = seconds; 
+                            }
+                            if(bestEasy<allbestE){
+                                localStorage.setItem('bestEasy',bestEasy); 
+                            } 
+                        }else if(level == 'medium'){
+                            let allbestM = window.localStorage.getItem('bestMedium');
+                            if(bestMedium>seconds){
+                               bestMedium = seconds; 
+                            }
+                            if(bestMedium<allbestM){
+                                localStorage.setItem('bestMedium',bestMedium); 
+                            }
+                        }else{
+                            let allbestH = window.localStorage.getItem('bestHard');
+                            if(bestHard>seconds){
+                               bestHard = seconds; 
+                            }
+                            if(bestHard<allbestH){
+                                localStorage.setItem('bestHard',bestHard); 
+                            }  
+                        }
+                        panel_gameover.appendChild(plevel);
+                        plevel.innerText = 'Overall Best Easy:     '+bestEasy+'\n'+'Overall Best Medium:   '+bestMedium + "\n" +'Overall Best Hard:     '+bestHard;
+                        //panel_gameover.appendChild(plevel);
+
+                        //create play again button
+                        let play_again = document.createElement('button');
+                        play_again.classList.add("play_again");
+                        play_again.innerText = 'Play again';
+                        panel_gameover.appendChild(play_again);
+                        play_again.addEventListener('click', play, true);
+                        play_again.addEventListener('click', remchild, true);
+                        function remchild(){
+                            panel_gameover.removeChild(play_again);
+                        }
+                        //difficulty level option
+                        divlevel.classList.remove('hidden');
+
+                        //clear tiles 
+                        while (tile_container.firstChild) {
+                            tile_container.removeChild(tile_container.lastChild);
+                        }
+
+                    }
+                    }
+                }
+
+                let seconds = 0;
+                function incrementSeconds(){
+                    seconds += 1;
+                    timer_container.innerText =seconds + " seconds elapsed.";
+
+                }
+                let interval = setInterval(incrementSeconds, 1000);
+
+            }
+
+
+        </script>
+    </body>
+</html>

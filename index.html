@@ -1,0 +1,106 @@
+<!Doctype html>
+<html lang="en-us">
+	<head>
+		<!--Favicon-->
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon.ico">
+
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<title>Interactive Portfolio</title>
+
+	</head>
+
+	<body>
+		<header class="header">
+			<h3> <a href="about.html" class="about"> About Me </a> </h3>
+			<h1>Interactive Portfolio</h1>
+		</header>
+
+
+<div class="grid-container multi-grid">
+<div> <a target="_blank" href= 'cp/index.html'>
+	<img class="grid-item icon" src="cp/images/puffle/bluePuffle.png" alt="flower" width="120" height="120"> </a>
+	<p>Club Penguin Recreation</p>
+</div>
+
+<div>
+	<a target="_blank" href="MemoryGame/A06.html">
+	<img class="grid-item icon" src="MemoryGame/assignment06_images/pokeball.png" alt="flower" width="120" height="120"></a>
+	<p>Memory Game</p>
+</div>
+
+<div> <a target="_blank" href= 'chatroom/index.php'>
+	<img class="grid-item icon" src="images/chaticon.png" alt="flower" width="120" height="120"> </a>
+	<p>Chat Room</p>
+</div>
+
+<div><a target="_blank" href="assignment05/index.html">
+	<img class="grid-item icon" src="images/cat.png" alt="flower" width="120" height="120"></a>
+	<p>VR landscape</p>
+</div>
+
+<div><a target="_blank" href="todolist/A05.html">
+	<img class="grid-item icon" src="todolist/A05_images/checkmark.png" alt="tree" width="120" height="120">
+</a>
+	<p>To Do List</p>
+</div>
+
+<div><a target="_blank" href="assignment04/index.html">
+	<img class="grid-item icon" src="assignment04/favicon_package/mstile-150x150.png" alt="tree" width="120" height="120"></a>
+	<p>Robots</p>
+</div>
+
+<div><a target="_blank" href="movieData/index.php">
+	<img class="grid-item icon" src="images/movie.png" alt="tree" width="120" height="120"></a>
+	<p>Movie Database</p>
+</div>
+
+<div> <a target="_blank" href="assignment03/index.html">
+	<img class="grid-item icon" src="assignment03/images/Cheetos.png" alt="tree" width="120" height="120"/> </a>
+	<p>Cheetos Game</p>
+</div>
+
+<div><a target="_blank" href="assignment06/index.html">
+	<img class="grid-item icon" src="assignment06/images/applePie.png" alt="flower" width="120" height="120"></a>
+	<p>AR Game</p>
+</div>
+<!--
+<div><a target="_blank" href="voiceGhost/index.html">
+	<img class="grid-item icon" src="images/flower.png" alt="flower" width="120" height="120"></a>
+	<p>Voice Ghost</p>
+</div>
+
+<div><a target="_blank" href="haunted/index.html">
+	<img class="grid-item icon" src="images/tree.png" alt="tree" width="120" height="120"></a>
+	<p>Paralax</p>
+</div>
+-->
+
+
+<script>
+	let a = window.innerWidth;
+	console.log('a: '+a);
+	console.log(window.innerWidth);
+	let m = document.querySelector('h3');
+	let grid = document.querySelector('.grid-container');
+	m.addEventListener('click', function(){
+		if(grid.classList.contains("multi-grid")){
+			grid.classList.remove("multi-grid");
+			grid.classList.add("single-grid");
+		}else{
+			grid.classList.remove("single-grid");
+			grid.classList.add("multi-grid");
+		}
+	})
+</script>
+
+</div>
+
+
+
+
+		<footer class="footer">
+			@ Shira Zeev
+		</footer>
+	</body>
+</html>
