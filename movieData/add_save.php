@@ -12,7 +12,7 @@
     }
 
     // connect to database
-    $dbpath ='/home/sz2760/databases/movies.db';
+    $dbpath = getcwd() . 'database/movies.db';
     $db = new SQLite3($dbpath);
 
 
