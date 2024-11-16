@@ -8,7 +8,7 @@
     session_start();
 
     // connect to the database
-    $dbpath ='/home/sz2760/databases/movies.db';
+    $dbpath = getcwd() . 'database/movies.db';
     $db = new SQLite3($dbpath);
 
     if(strlen($search_title) == 0 && strlen($search_year) == 0){
