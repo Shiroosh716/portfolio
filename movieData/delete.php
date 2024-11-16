@@ -4,7 +4,7 @@
 $id = $_GET['id'];
 
 // connect to the database
-$dbpath = '/home/sz2760/databases/movies.db';
+$dbpath = getcwd().'database/movies.db';
 $db = new SQLite3($dbpath);
 
 // prepare and execute the SQL DELETE statement
