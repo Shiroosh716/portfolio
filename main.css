@@ -88,7 +88,7 @@ footer p{
 		display: grid;
 		margin: 7%;
 		justify-content: space-evenly;
-		grid-template-columns: auto auto auto auto auto;
+		grid-template-columns: auto auto auto auto;
 		margin-top: 200px;
 	}
 	.multi-grid>div{
